@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    font-family: 'Outfit', system-ui, sans-serif;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-700 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-600;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-slate-900/50 backdrop-blur-xl border border-slate-800/50 rounded-2xl;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 
+           text-white font-medium rounded-xl
+           hover:from-primary-400 hover:to-accent-400 
+           transition-all duration-300 shadow-lg shadow-primary-500/20
+           hover:shadow-xl hover:shadow-primary-500/30
+           active:scale-95;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-slate-800 border border-slate-700 
+           text-slate-200 font-medium rounded-xl
+           hover:bg-slate-700 hover:border-slate-600
+           transition-all duration-300
+           active:scale-95;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 bg-slate-800/50 border border-slate-700 
+           rounded-xl text-slate-100 placeholder-slate-500
+           focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20
+           transition-all duration-200;
+  }
+  
+  .filter-chip {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+  }
+  
+  .filter-chip-active {
+    @apply bg-primary-500 text-white shadow-lg shadow-primary-500/30;
+  }
+  
+  .filter-chip-inactive {
+    @apply bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-slate-200;
+  }
+}
+
+/* Markdown 스타일 */
+.markdown-content {
+  @apply max-w-none;
+}
+
+.markdown-content h1 {
+  @apply text-3xl font-bold text-slate-100 mb-6 mt-8 first:mt-0;
+}
+
+.markdown-content h2 {
+  @apply text-2xl font-semibold text-slate-200 mb-4 mt-6;
+}
+
+.markdown-content h3 {
+  @apply text-xl font-medium text-slate-300 mb-3 mt-4;
+}
+
+.markdown-content p {
+  @apply text-slate-300 leading-relaxed mb-4;
+}
+
+.markdown-content ul, .markdown-content ol {
+  @apply text-slate-300 mb-4 ml-6;
+}
+
+.markdown-content li {
+  @apply mb-2;
+}
+
+.markdown-content strong {
+  @apply text-slate-100 font-semibold;
+}
+
+.markdown-content code {
+  @apply bg-slate-800 px-2 py-1 rounded text-primary-400 text-sm;
+}
+
+.markdown-content pre {
+  @apply bg-slate-800 p-4 rounded-xl overflow-x-auto mb-4;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-primary-500 pl-4 italic text-slate-400;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
