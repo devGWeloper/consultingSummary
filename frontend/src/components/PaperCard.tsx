@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Calendar, Building2, Tag, ArrowRight } from 'lucide-react';
+import { Calendar, Building2, ArrowRight } from 'lucide-react';
 import type { PaperListItem } from '../types';
+import MarkdownViewer from './MarkdownViewer';
 
 interface PaperCardProps {
   paper: PaperListItem;
@@ -53,9 +54,9 @@ export default function PaperCard({ paper, index = 0 }: PaperCardProps) {
 
       {/* Summary */}
       {paper.summary && (
-        <p className="text-slate-500 text-sm line-clamp-3 mb-4">
-          {paper.summary}
-        </p>
+        <div className="text-sm line-clamp-3 mb-4">
+          <MarkdownViewer content={paper.summary} variant="summary" />
+        </div>
       )}
 
       {/* Read More */}

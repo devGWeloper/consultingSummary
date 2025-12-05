@@ -3,11 +3,14 @@ import remarkGfm from 'remark-gfm';
 
 interface MarkdownViewerProps {
   content: string;
+  variant?: 'full' | 'summary';
 }
 
-export default function MarkdownViewer({ content }: MarkdownViewerProps) {
+export default function MarkdownViewer({ content, variant = 'full' }: MarkdownViewerProps) {
+  const className = variant === 'summary' ? 'markdown-summary' : 'markdown-content';
+  
   return (
-    <div className="markdown-content">
+    <div className={className}>
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
     </div>
   );

@@ -124,7 +124,7 @@ export default function DetailPage() {
 
         {paper.summary && (
           <div className="mt-6 pt-6 border-t border-slate-800">
-            <p className="text-slate-400 leading-relaxed">{paper.summary}</p>
+            <MarkdownViewer content={paper.summary} variant="summary" />
           </div>
         )}
       </header>

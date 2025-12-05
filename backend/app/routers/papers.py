@@ -305,26 +305,61 @@ def extract_company(filename: str, content: str) -> str:
 
 
 def extract_summary(content: str) -> str:
-    """마크다운에서 요약 추출 (첫 번째 의미있는 문단)"""
+    """마크다운에서 요약 추출 (보고서 개요 ~ 핵심 메시지 라인까지)"""
     lines = content.split("\n")
     summary_lines = []
+    in_overview = False
+    found_key_message = False
     
     for line in lines:
-        line = line.strip()
-        # 헤더 건너뛰기
-        if line.startswith("#") or not line:
+        stripped = line.strip()
+        
+        # 보고서 개요 섹션 시작 감지
+        if "보고서 개요" in stripped or "개요" in stripped and stripped.startswith("#"):
+            in_overview = True
             continue
-        # 메타데이터 건너뛰기
-        if line.startswith("---") or line.startswith("*출처"):
+        
+        # 다음 주요 섹션 시작시 종료 (## 로 시작하는 다른 헤더)
+        if stripped.startswith("##") and in_overview:
+            break
+        
+        # 구분선 건너뛰기
+        if stripped == "---":
+            if found_key_message:
+                break  # 핵심 메시지 후 구분선이면 종료
             continue
-        # 일반 텍스트 찾으면 추가
-        if len(line) > 20:
-            summary_lines.append(line)
-            if len(" ".join(summary_lines)) > 200:
+        
+        # 빈 줄 건너뛰기
+        if not stripped:
+            continue
+        
+        # 제목 헤더 건너뛰기 (# 하나짜리)
+        if stripped.startswith("# ") and not stripped.startswith("##"):
+            continue
+        
+        # 출처 건너뛰기
+        if stripped.startswith("*출처"):
+            continue
+        
+        # 보고서 개요 섹션 내용 추가
+        if in_overview or not summary_lines:
+            # 리스트 아이템이나 일반 텍스트
+            if stripped.startswith("-") or stripped.startswith("*") or len(stripped) > 10:
+                summary_lines.append(stripped)
+            
+            # 핵심 메시지 라인 감지
+            if "핵심 메시지" in stripped.lower() or "key message" in stripped.lower():
+                found_key_message = True
                 break
     
-    summary = " ".join(summary_lines)
-    if len(summary) > 300:
-        summary = summary[:297] + "..."
+    # 요약이 없으면 첫 몇 줄 사용
+    if not summary_lines:
+        for line in lines:
+            stripped = line.strip()
+            if stripped and not stripped.startswith("#") and stripped != "---" and not stripped.startswith("*출처"):
+                summary_lines.append(stripped)
+                if len(summary_lines) >= 3:
+                    break
     
+    summary = "\n".join(summary_lines)
     return summary or "요약 없음"
